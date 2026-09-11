@@ -173,12 +173,12 @@
     </div>
   </div>
 
-  <!-- OVERLAY HITAM JIKA DIKUNCI -->
+  <!-- OVERLAY HITAM JIKA DIKUNCI PERMANEN -->
   <div id="lock-overlay">
     <img src="logo.png" alt="Logo SMPN 5 Tangerang" style="width: 70px; margin-bottom: 15px;">
-    <h1 style="font-size: 32px; margin-bottom: 10px;">UJIAN DIKUNCI!</h1>
-    <p id="lock-reason" style="font-size: 18px; color: #cdd6f4;">Batas pelanggaran terlampaui.</p>
-    <p style="color: #a6adc8; margin-top: 15px;">Segera hubungi pengawas di ruangan!</p>
+    <h1 style="font-size: 32px; margin-bottom: 10px;">UJIAN DIKUNCI PERMANEN!</h1>
+    <p id="lock-reason" style="font-size: 18px; color: #cdd6f4;">Batas pelanggaran telah terlampaui.</p>
+    <p style="color: #a6adc8; margin-top: 15px;">Ujian untuk mata pelajaran ini sudah tidak dapat dibuka lagi.<br>Segera laporkan ke pengawas di ruangan!</p>
   </div>
 
   <!-- CONTAINER FORM GOOGLE -->
@@ -198,7 +198,7 @@
       "BING":  { day: 4, start: 8.0,  end: 10.0 },
       "INF":   { day: 4, start: 10.5, end: 12.0 },
       "SBK":   { day: 5, start: 7.5,  end: 9.0  },
-      "PJOK":  { day: 5, start: 9.5,  end: 15.0 }
+      "PJOK":  { day: 5, start: 9.5,  end: 11.0 }
     };
 
     // DATABASE LINK GOOGLE FORM
@@ -211,9 +211,9 @@
         "MTK": "https://docs.google.com/forms/d/e/LINK_FORM_MTK_K7/viewform?embedded=true",
         "PPKN": "https://docs.google.com/forms/d/e/LINK_FORM_PPKN_K7/viewform?embedded=true",
         "BING": "https://docs.google.com/forms/d/e/LINK_FORM_BING_K7/viewform?embedded=true",
-        "INF": "https://forms.gle/diDXw3wG59m8rELo7",
+        "INF": "https://docs.google.com/forms/d/e/LINK_FORM_INF_K7/viewform?embedded=true",
         "SBK": "https://docs.google.com/forms/d/e/LINK_FORM_SBK_K7/viewform?embedded=true",
-        "PJOK": "https://forms.gle/diDXw3wG59m8rELo7"
+        "PJOK": "https://forms.gle/Kxrsn9h5NB9t2DQh9/viewform?embedded=true"
       },
       "8": {
         "PAI": "https://docs.google.com/forms/d/e/LINK_FORM_PAI_K8/viewform?embedded=true",
@@ -242,10 +242,11 @@
     };
 
     let violationCount = 0;
-    const maxViolations = 4;
+    const maxViolations = 5; // DIUBAH MENJADI MAKSIMAL 5 KALI VIOLASI
     let isExamStarted = false;
+    let currentExamKey = "";
 
-    // Protection Events
+    // Fitur Proteksi
     document.addEventListener('contextmenu', e => e.preventDefault());
     document.addEventListener('copy', e => e.preventDefault());
     document.addEventListener('paste', e => e.preventDefault());
@@ -276,6 +277,14 @@
 
       if (!kelas || !mapel) {
         alert("Silakan pilih KELAS dan MATA PELAJARAN terlebih dahulu!");
+        return;
+      }
+
+      currentExamKey = `exam_locked_${kelas}_${mapel}`;
+
+      // CEK PAKAH MAPEL INI SUDAH DIKUNCI PERMANEN DI HP
+      if (localStorage.getItem(currentExamKey) === "true") {
+        lockExam(`Akses ditolak! HP ini telah dikualifikasi permanen untuk ujian ${mapel} Kelas ${kelas}.`);
         return;
       }
 
@@ -315,7 +324,7 @@
     }
 
     window.addEventListener('blur', () => {
-      handleVisibilityLoss("Fokus layar hilang (Layar Terbagi / Pindah Aplikasi / Google Lens / AI)");
+      handleVisibilityLoss("Fokus layar hilang (Pindah Aplikasi / Google Lens / AI / Floating App)");
     });
 
     document.addEventListener('visibilitychange', () => {
@@ -333,18 +342,24 @@
       }
     }
 
+    // HITUNG VIOLASI (MAKS 5X)
     function recordViolation(reason) {
       violationCount++;
       if (violationCount < maxViolations) {
-        alert(`PERINGATAN UJIAN (${violationCount}/${maxViolations})!\nTerdeteksi: ${reason}.\nJika melanggar ${maxViolations} kali, ujian akan langsung dikunci!`);
+        alert(`PERINGATAN VIOLASI (${violationCount}/${maxViolations})!\nTerdeteksi: ${reason}.\nJika melanggar ${maxViolations} kali, ujian akan dikunci PERMANEN!`);
       } else {
-        lockExam(`Dikualifikasi karena: ${reason} (Melanggar ${violationCount}x)`);
+        // SIMPAN STATUS KUNCI PERMANEN DI BROWSER HP
+        if (currentExamKey) {
+          localStorage.setItem(currentExamKey, "true");
+        }
+        lockExam(`Kamu didiskualifikasi karena melanggar ${violationCount} kali! (${reason})`);
       }
     }
 
     function lockExam(message) {
       isExamStarted = false;
       document.getElementById('form-container').style.display = 'none';
+      document.getElementById('setup-portal').style.display = 'none';
       
       const lockOverlay = document.getElementById('lock-overlay');
       document.getElementById('lock-reason').innerText = message;
