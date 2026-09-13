@@ -183,24 +183,25 @@
         <select id="mapel-select">
           <option value="">-- Pilih Mapel --</option>
           <!-- SENIN -->
-          <option value="PAI">PAI &amp; BP (Senin, 07.30 - 09.00)</option>
-          <option value="PAK">Pendidikan Agama Kristen &amp; BP (Senin, 07.30 - 09.00)</option>
-          <option value="KATOLIK">Pendidikan Agama Katolik &amp; BP (Senin, 07.30 - 09.00)</option>
-          <option value="BUDDHA">Pendidikan Agama Buddha &amp; BP (Senin, 07.30 - 09.00)</option>
-          <option value="HINDU">Pendidikan Agama Hindu &amp; BP (Senin, 07.30 - 09.00)</option>
-          <option value="IPA">IPA (Senin, 09.30 - 11.30)</option>
+          <option value="PAI">PAI &amp; BP (Senin, 08.00 - 09.30)</option>
+          <option value="PAK">Pendidikan Agama Kristen &amp; BP (Senin, 08.00 - 09.30)</option>
+          <option value="KATOLIK">Pendidikan Agama Katolik &amp; BP (Senin, 08.00 - 09.30)</option>
+          <option value="BUDDHA">Pendidikan Agama Buddha &amp; BP (Senin, 08.00 - 09.30)</option>
+          <option value="HINDU">Pendidikan Agama Hindu &amp; BP (Senin, 08.00 - 09.30)</option>
+          <option value="IPA">IPA (Senin, 10.00 - 12.00)</option>
 
           <!-- SELASA -->
-          <option value="BINDO">Bahasa Indonesia (Selasa, 07.30 - 09.30)</option>
-          <option value="IPS">IPS (Selasa, 10.00 - 11.30)</option>
+          <option value="BINDO">Bahasa Indonesia (Selasa, 08.00 - 10.00)</option>
+          <option value="IPS">IPS (Selasa, 10.30 - 12.00)</option>
 
           <!-- RABU -->
           <option value="MTK">Matematika (Rabu, 07.30 - 09.30)</option>
-          <option value="BING">Bahasa Inggris (Rabu, 10.00 - 11.30)</option>
+          <option value="BING">Bahasa Inggris (Rabu, 10.00 - 12.00)</option>
 
           <!-- KAMIS -->
           <option value="PPKN">Pendidikan Pancasila (Kamis, 07.30 - 09.00)</option>
           <option value="INF">Informatika (Kamis, 09.30 - 11.00)</option>
+          <option value="KKA">KKA (Kamis, 11.00 - 12.30)</option>
 
           <!-- JUMAT -->
           <option value="SBK">Seni Budaya (Jumat, 07.30 - 09.00)</option>
@@ -226,54 +227,91 @@
   </div>
 
   <script>
-    // Konfigurasi tanggal resmi ujian (Tahun, Bulan-1, Tanggal, Jam, Menit)
-    // Silakan sesuaikan tanggal di bawah ini jika jadwal dinas terbit
+    // Konfigurasi tanggal & jam resmi ujian (Tahun, Bulan-1, Tanggal, Jam, Menit)
     const scheduleConfig = {
-      "PAI":     { start: new Date(2026, 8, 21,  7, 30), end: new Date(2026, 8, 21,  9,  0) },
-      "PAK":     { start: new Date(2026, 8, 21,  7, 30), end: new Date(2026, 8, 21,  9,  0) },
-      "KATOLIK": { start: new Date(2026, 8, 21,  7, 30), end: new Date(2026, 8, 21,  9,  0) },
-      "BUDDHA":  { start: new Date(2026, 8, 21,  7, 30), end: new Date(2026, 8, 21,  9,  0) },
-      "HINDU":   { start: new Date(2026, 8, 21,  7, 30), end: new Date(2026, 8, 21,  9,  0) },
-      "IPA":     { start: new Date(2026, 8, 21,  9, 30), end: new Date(2026, 8, 21, 11, 30) },
+      // SENIN
+      "PAI":     { start: new Date(2026, 8, 21,  8,  0), end: new Date(2026, 8, 21,  9, 30) },
+      "PAK":     { start: new Date(2026, 8, 21,  8,  0), end: new Date(2026, 8, 21,  9, 30) },
+      "KATOLIK": { start: new Date(2026, 8, 21,  8,  0), end: new Date(2026, 8, 21,  9, 30) },
+      "BUDDHA":  { start: new Date(2026, 8, 21,  8,  0), end: new Date(2026, 8, 21,  9, 30) },
+      "HINDU":   { start: new Date(2026, 8, 21,  8,  0), end: new Date(2026, 8, 21,  9, 30) },
+      "IPA":     { start: new Date(2026, 8, 21, 10,  0), end: new Date(2026, 8, 21, 12,  0) },
 
-      "BINDO":   { start: new Date(2026, 8, 22,  7, 30), end: new Date(2026, 8, 22,  9, 30) },
-      "IPS":     { start: new Date(2026, 8, 22, 10,  0), end: new Date(2026, 8, 22, 11, 30) },
+      // SELASA
+      "BINDO":   { start: new Date(2026, 8, 22,  8,  0), end: new Date(2026, 8, 22, 10,  0) },
+      "IPS":     { start: new Date(2026, 8, 22, 10, 30), end: new Date(2026, 8, 22, 12,  0) },
 
+      // RABU
       "MTK":     { start: new Date(2026, 8, 23,  7, 30), end: new Date(2026, 8, 23,  9, 30) },
-      "BING":    { start: new Date(2026, 8, 23, 10,  0), end: new Date(2026, 8, 23, 11, 30) },
+      "BING":    { start: new Date(2026, 8, 23, 10,  0), end: new Date(2026, 8, 23, 12,  0) },
 
+      // KAMIS
       "PPKN":    { start: new Date(2026, 8, 24,  7, 30), end: new Date(2026, 8, 24,  9,  0) },
       "INF":     { start: new Date(2026, 8, 24,  9, 30), end: new Date(2026, 8, 24, 11,  0) },
+      "KKA":     { start: new Date(2026, 8, 24, 11,  0), end: new Date(2026, 8, 24, 12, 30) },
 
+      // JUMAT
       "SBK":     { start: new Date(2026, 8, 25,  7, 30), end: new Date(2026, 8, 25,  9,  0) },
       "PJOK":    { start: new Date(2026, 8, 25,  9, 30), end: new Date(2026, 8, 25, 11,  0) }
     };
 
-    // Link Form Resmi per Kelas (Diisi sesuai link yang kamu berikan)
-    const linkK7 = "https://forms.gle/jhuxhDApuSFg5qmH8";
-    const linkK8 = "https://forms.gle/d78CwrBT3iMtSJwq8";
-    const linkK9 = "https://forms.gle/jCeUjoByMk6gDpLt8";
-
+    // Link Form Resmi per Mata Pelajaran & Jenjang
     const formLinks = {
       "7": {
-        "PAI": linkK7, "PAK": linkK7, "KATOLIK": linkK7, "BUDDHA": linkK7, "HINDU": linkK7, "IPA": linkK7,
-        "BINDO": linkK7, "IPS": linkK7, "MTK": linkK7, "BING": linkK7, "PPKN": linkK7, "INF": linkK7,
-        "SBK": linkK7, "PJOK": linkK7
+        "PAI":     "https://forms.gle/LINK_PAI_K7",
+        "PAK":     "https://forms.gle/LINK_PAK_K7",
+        "KATOLIK": "https://forms.gle/LINK_KATOLIK_K7",
+        "BUDDHA":  "https://forms.gle/LINK_BUDDHA_K7",
+        "HINDU":   "https://forms.gle/LINK_HINDU_K7",
+        "IPA":     "https://forms.gle/LINK_IPA_K7",
+        "BINDO":   "https://forms.gle/LINK_BINDO_K7",
+        "IPS":     "https://forms.gle/LINK_IPS_K7",
+        "MTK":     "https://forms.gle/LINK_MTK_K7",
+        "BING":    "https://forms.gle/LINK_BING_K7",
+        "PPKN":    "https://forms.gle/LINK_PPKN_K7",
+        "INF":     "https://forms.gle/LINK_INF_K7",
+        "KKA":     "https://forms.gle/LINK_KKA_K7",
+        "SBK":     "https://forms.gle/LINK_SBK_K7",
+        "PJOK":    "https://forms.gle/LINK_PJOK_K7"
       },
       "8": {
-        "PAI": linkK8, "PAK": linkK8, "KATOLIK": linkK8, "BUDDHA": linkK8, "HINDU": linkK8, "IPA": linkK8,
-        "BINDO": linkK8, "IPS": linkK8, "MTK": linkK8, "BING": linkK8, "PPKN": linkK8, "INF": linkK8,
-        "SBK": linkK8, "PJOK": linkK8
+        "PAI":     "https://forms.gle/LINK_PAI_K8",
+        "PAK":     "https://forms.gle/LINK_PAK_K8",
+        "KATOLIK": "https://forms.gle/LINK_KATOLIK_K8",
+        "BUDDHA":  "https://forms.gle/LINK_BUDDHA_K8",
+        "HINDU":   "https://forms.gle/LINK_HINDU_K8",
+        "IPA":     "https://forms.gle/LINK_IPA_K8",
+        "BINDO":   "https://forms.gle/LINK_BINDO_K8",
+        "IPS":     "https://forms.gle/LINK_IPS_K8",
+        "MTK":     "https://forms.gle/LINK_MTK_K8",
+        "BING":    "https://forms.gle/LINK_BING_K8",
+        "PPKN":    "https://forms.gle/LINK_PPKN_K8",
+        "INF":     "https://forms.gle/LINK_INF_K8",
+        "KKA":     "https://forms.gle/LINK_KKA_K8",
+        "SBK":     "https://forms.gle/LINK_SBK_K8",
+        "PJOK":    "https://forms.gle/LINK_PJOK_K8"
       },
       "9": {
-        "PAI": linkK9, "PAK": linkK9, "KATOLIK": linkK9, "BUDDHA": linkK9, "HINDU": linkK9, "IPA": linkK9,
-        "BINDO": linkK9, "IPS": linkK9, "MTK": linkK9, "BING": linkK9, "PPKN": linkK9, "INF": linkK9,
-        "SBK": linkK9, "PJOK": linkK9
+        "PAI":     "https://forms.gle/LINK_PAI_K9",
+        "PAK":     "https://forms.gle/LINK_PAK_K9",
+        "KATOLIK": "https://forms.gle/LINK_KATOLIK_K9",
+        "BUDDHA":  "https://forms.gle/LINK_BUDDHA_K9",
+        "HINDU":   "https://forms.gle/LINK_HINDU_K9",
+        "IPA":     "https://forms.gle/LINK_IPA_K9",
+        "BINDO":   "https://forms.gle/LINK_BINDO_K9",
+        "IPS":     "https://forms.gle/LINK_IPS_K9",
+        "MTK":     "https://forms.gle/LINK_MTK_K9",
+        "BING":    "https://forms.gle/LINK_BING_K9",
+        "PPKN":    "https://forms.gle/LINK_PPKN_K9",
+        "INF":     "https://forms.gle/LINK_INF_K9",
+        "KKA":     "https://forms.gle/LINK_KKA_K9",
+        "SBK":     "https://forms.gle/LINK_SBK_K9",
+        "PJOK":    "https://forms.gle/LINK_PJOK_K9"
       }
     };
 
     let violationCount = 0;
-    const maxViolations = 3; // Batas pelanggaran resmi (3 kali)
+    const maxViolations = 3;
     let isExamStarted = false;
     let currentExamKey = "";
 
